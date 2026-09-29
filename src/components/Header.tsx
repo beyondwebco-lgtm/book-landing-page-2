@@ -20,6 +20,7 @@ export const Header: React.FC = () => {
   const navLinks = [
     { name: "The Book", href: "#book" },
     { name: "Temples & Kshetras", href: "#sacred-places" },
+    { name: "Gallery", href: "#gallery" },
     { name: "The Journey", href: "#journey" },
     { name: "Inside the Pages", href: "#preview" },
     { name: "About the Author", href: "#author" },
