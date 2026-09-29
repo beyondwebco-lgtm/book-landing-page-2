@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Thirtha Yatra
+**A Guide to Holy Temples and Thirtha Kshetras in India**  
+*By Ramesh Gangashetty*
+
+Official Amazon Link: [https://amzn.in/d/01cQyrpn](https://amzn.in/d/01cQyrpn)
+
+An archival landing page documenting the monumental work of Ramesh Gangashetty (Retired Officer, State Bank), chronicling thousands of temples, sacred rivers, and spiritual heritage across India after 8–9 years of dedicated personal pilgrimage.
 
 ## Getting Started
 

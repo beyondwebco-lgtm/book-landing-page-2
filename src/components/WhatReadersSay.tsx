@@ -129,7 +129,7 @@ export const WhatReadersSay: React.FC = () => {
           <div className="space-y-6 text-[#171717]/90 text-base md:text-lg leading-relaxed font-light max-w-4xl">
             <p>
               Although many books in various languages have been published on pilgrimages, this book,{" "}
-              <strong className="font-normal text-[#171717]">“Teertha Yatra,” written by Sri Ramesh Gangaji</strong>, is unique.
+              <strong className="font-normal text-[#171717]">“Teertha Yatra,” written by Sri Ramesh Gangashetty</strong>, is unique.
             </p>
 
             <p>

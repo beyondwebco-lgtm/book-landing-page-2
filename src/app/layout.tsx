@@ -17,11 +17,14 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Thirtha Yatra — A Guide to Holy Temples and Thirtha Kshetras in India",
+  title: "Thirtha Yatra — A Guide to Holy Temples and Thirtha Kshetras in India | Ramesh Gangashetty",
   description:
-    "Thousands of temples. Sacred rivers. Ancient mountains. Stories of saints and rishis. A journey through the spiritual geography of Bharat by personal visits and documented heritage.",
+    "By Ramesh Gangashetty. Thousands of temples. Sacred rivers. Ancient mountains. Stories of saints and rishis. A journey through the spiritual geography of Bharat by personal visits and documented heritage.",
+  authors: [{ name: "Ramesh Gangashetty" }],
+  creator: "Ramesh Gangashetty",
   keywords: [
     "Thirtha Yatra",
+    "Ramesh Gangashetty",
     "Holy Temples India",
     "Thirtha Kshetras",
     "Sacred Bharat",
@@ -30,18 +33,18 @@ export const metadata: Metadata = {
     "Spiritual Geography India",
   ],
   openGraph: {
-    title: "Thirtha Yatra — A Guide to Holy Temples and Thirtha Kshetras in India",
+    title: "Thirtha Yatra by Ramesh Gangashetty — A Guide to Holy Temples and Thirtha Kshetras in India",
     description:
-      "A journey through the spiritual geography of Bharat. Collated through firsthand visits to ancient temples and sacred kshetras.",
+      "A journey through the spiritual geography of Bharat by Ramesh Gangashetty. Collated through firsthand visits to ancient temples and sacred kshetras.",
     type: "book",
     locale: "en_IN",
     siteName: "Thirtha Yatra",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Thirtha Yatra — A Guide to Holy Temples and Thirtha Kshetras in India",
+    title: "Thirtha Yatra by Ramesh Gangashetty — A Guide to Holy Temples and Thirtha Kshetras in India",
     description:
-      "A journey through the spiritual geography of Bharat. Discover, understand, plan, and experience India's sacred kshetras.",
+      "A journey through the spiritual geography of Bharat by Ramesh Gangashetty. Discover, understand, plan, and experience India's sacred kshetras.",
   },
 };
 

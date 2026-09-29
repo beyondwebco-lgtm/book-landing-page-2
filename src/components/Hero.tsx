@@ -59,8 +59,13 @@ export const Hero: React.FC = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="font-serif italic text-xl md:text-2xl text-[#8A5A24] font-normal tracking-wide mb-8">
+            <p className="font-serif italic text-xl md:text-2xl text-[#8A5A24] font-normal tracking-wide mb-3">
               A Guide to Holy Temples and Thirtha Kshetras in India
+            </p>
+
+            {/* Author Credit */}
+            <p className="text-xs uppercase tracking-[0.24em] text-[#171717]/80 font-medium mb-8">
+              By Ramesh Gangashetty
             </p>
 
             {/* Introduction excerpt */}

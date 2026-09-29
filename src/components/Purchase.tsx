@@ -49,9 +49,12 @@ export const Purchase: React.FC = () => {
               <span className="text-[11px] uppercase tracking-[0.2em] font-mono text-[#8A5A24] mb-2">
                 Official Release
               </span>
-              <h3 className="font-serif text-3xl text-[#171717] font-normal mb-2">
+              <h3 className="font-serif text-3xl text-[#171717] font-normal mb-1">
                 Thirtha Yatra
               </h3>
+              <p className="text-xs text-[#8A5A24] uppercase tracking-wider font-medium mb-1">
+                By Ramesh Gangashetty
+              </p>
               <p className="text-xs text-[#6B6B6B] uppercase tracking-wider mb-6">
                 A Guide to Holy Temples and Thirtha Kshetras in India
               </p>
@@ -97,7 +100,7 @@ export const Purchase: React.FC = () => {
 
               {/* CTA */}
               <a
-                href="https://www.amazon.in/-/hi/Thirtha-Yatra-Guide-Temples-Kshetras/dp/1684661331?s=bazaar"
+                href="https://amzn.in/d/01cQyrpn"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 bg-[#171717] text-white text-xs uppercase tracking-[0.24em] font-medium text-center hover:bg-[#8A5A24] transition-colors flex items-center justify-center gap-3 shadow-xs"

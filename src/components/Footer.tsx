@@ -21,7 +21,7 @@ export const Footer: React.FC = () => {
             </p>
             <p className="text-xs text-[#6B6B6B] max-w-md font-light leading-relaxed">
               An archival reference and dedicated field documentation of Bharat&apos;s
-              sacred geography, temples, rivers, and spiritual traditions.
+              sacred geography, temples, rivers, and spiritual traditions by author Ramesh Gangashetty.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Credits */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#6B6B6B] font-light gap-4">
-          <p>© {new Date().getFullYear()} Thirtha Yatra. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Thirtha Yatra by Ramesh Gangashetty. All rights reserved.</p>
           <p className="tracking-widest uppercase text-[10px]">
             Sacred Bharat • Editorial Publication
           </p>
