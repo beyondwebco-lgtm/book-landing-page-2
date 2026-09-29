@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --warm-ivory: #f8f6f0;
+  --antique-gold: #8a5a24;
+  --temple-maroon: #7a1f1f;
+  --soft-gray: #6b6b6b;
+  --border-subtle: #eae5d9;
+}
+
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-jakarta), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-serif, .editorial-quote {
+    font-family: var(--font-cormorant), Georgia, Cambria, "Times New Roman", Times, serif;
+  }
+}
+
+/* Subtle architectural patterns & line art utilities */
+.bg-subtle-mandala {
+  background-image: radial-gradient(#8a5a24 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
+}
+
+.thin-border-bottom {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.thin-border-top {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.thin-border {
+  border: 1px solid var(--border-subtle);
+}
+
+/* Custom smooth styling */
+::selection {
+  background: rgba(138, 90, 36, 0.18);
+  color: #171717;
+}
