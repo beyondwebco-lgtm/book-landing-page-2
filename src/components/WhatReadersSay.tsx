@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, Quote } from "lucide-react";
+import { ChevronDown, ChevronUp, Quote, Sparkles } from "lucide-react";
 
 interface ReviewItem {
   id: string;
@@ -22,7 +22,7 @@ export const WhatReadersSay: React.FC = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const reviews: ReviewItem[] = [
+  const supportingReviews: ReviewItem[] = [
     {
       id: "swami-jnanananda",
       name: "Swami Jnanananda",
@@ -53,16 +53,6 @@ export const WhatReadersSay: React.FC = () => {
         "“A comprehensive presentation of Thirthas, their sanctity and significance, inculcating noble values and inspiring pilgrimage.”",
       fullReview:
         "This book provides a comprehensive presentation of India's holy Thirthas, explaining their religious sanctity and civilizational significance. Through lucid narration of traditional beliefs and moral values, it fosters positive attitudes and inspires readers across generations to undertake pilgrimage with reverence and cultural awareness.",
-    },
-    {
-      id: "chaganti-koteswara-rao",
-      name: "Chaganti Koteswara Rao",
-      designation: "Eminent Scholar & Pravachana Karta",
-      organization: "Andhra Pradesh",
-      shortQuote:
-        "“The uniqueness of Thirtha Yatra lies in its short and striking introductions to various forms of God, written in simple language without unnecessary information.”",
-      fullReview:
-        "The uniqueness of Thirtha Yatra is that it addresses various forms of God worshipped across our kshetras with short, striking, and devout introductions. Written in simple, graceful language, it avoids unnecessary extraneous details, focusing directly on the spiritual essence that enriches a devotee's heart.",
     },
     {
       id: "dr-chetan-kumar-thota",
@@ -107,84 +97,166 @@ export const WhatReadersSay: React.FC = () => {
           </p>
         </div>
 
-        {/* Testimonials Editorial Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-          {reviews.map((rev) => {
-            const isExpanded = expandedId === rev.id;
-            return (
-              <motion.div
-                key={rev.id}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="p-8 md:p-10 bg-[#F8F6F0] border border-[#EAE5D9] flex flex-col justify-between"
-              >
-                <div>
-                  {/* Subtle quote icon */}
-                  <div className="text-[#8A5A24]/40 mb-6">
-                    <Quote size={28} className="rotate-180" />
-                  </div>
+        {/* ========================================================================= */}
+        {/* FEATURED EDITORIAL TESTIMONIAL: CHAGANTI KOTESWARA RAO                   */}
+        {/* ========================================================================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mb-20 bg-[#F8F6F0] border border-[#EAE5D9] p-8 md:p-14 lg:p-16 relative shadow-xs"
+        >
+          {/* Subtle Top Accent */}
+          <div className="flex items-center justify-between pb-8 mb-8 border-b border-[#EAE5D9]">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-[#8A5A24]" />
+              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#8A5A24] font-medium">
+                Featured Reader Note
+              </span>
+            </div>
+            <div className="text-[#8A5A24]/40">
+              <Quote size={28} className="rotate-180" />
+            </div>
+          </div>
 
-                  {/* Primary Excerpt */}
-                  <blockquote className="font-serif text-xl md:text-2xl text-[#171717] font-normal leading-relaxed mb-6">
-                    {rev.shortQuote}
-                  </blockquote>
+          {/* Heading: A Small Note */}
+          <h3 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#171717] font-normal leading-[1.15] mb-8">
+            A Small Note
+          </h3>
 
-                  {/* Collapsible Full Review */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden mb-6"
-                      >
-                        <div className="pt-4 border-t border-[#EAE5D9] text-xs md:text-sm text-[#6B6B6B] leading-relaxed font-light space-y-3">
-                          <p>{rev.fullReview}</p>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+          {/* Review Body (Preserving exact supplied wording without alteration) */}
+          <div className="space-y-6 text-[#171717]/90 text-base md:text-lg leading-relaxed font-light max-w-4xl">
+            <p>
+              Although many books in various languages have been published on pilgrimages, this book,{" "}
+              <strong className="font-normal text-[#171717]">“Teertha Yatra,” written by Sri Ramesh Gangaji</strong>, is unique.
+            </p>
 
-                  {/* Read full review toggle button */}
-                  <button
-                    onClick={() => toggleExpand(rev.id)}
-                    className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-[#8A5A24] font-medium hover:text-[#171717] transition-colors mb-8"
-                  >
-                    <span>{isExpanded ? "Collapse review" : "Read full review"}</span>
-                    {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-                  </button>
-                </div>
+            <p>
+              Usually, such books are written keeping the geographical position of India in view and cover various forms of God. However, this book covers{" "}
+              <strong className="font-normal text-[#171717]">Sri Siva, Sri Devi, Sri Radha, Lord Vishnu, and Sri Datta</strong> in a distinctive manner.
+            </p>
 
-                {/* Reviewer Attribution */}
-                <div className="pt-6 border-t border-[#EAE5D9] flex items-center justify-between">
+            <p>
+              Further, the book gives a small and striking introduction to the{" "}
+              <strong className="font-normal text-[#171717]">Kshetras</strong> and the Swamijis associated with them in simple language. The reader will first understand the greatness of the Kshetra. Depending upon one’s interest, it is possible to cover as many places as one wishes, connected with a particular form of God.
+            </p>
+
+            <p>
+              The author has taken great care to avoid unnecessary information. The information is presented{" "}
+              <strong className="font-normal text-[#171717]">state-wise, with details of the history of the places</strong>. The table at the end of the book is also quite useful.
+            </p>
+          </div>
+
+          {/* Featured Blessing Blockquote */}
+          <div className="my-10 pl-6 md:pl-8 border-l-2 border-[#8A5A24] py-2 bg-white/50">
+            <blockquote className="font-serif italic text-xl sm:text-2xl md:text-3xl text-[#171717] leading-relaxed">
+              “I pray to God that he blesses the author with the inspiration and ability to write many more books in the future.”
+            </blockquote>
+          </div>
+
+          {/* Attribution */}
+          <div className="pt-8 border-t border-[#EAE5D9] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p className="font-serif text-2xl text-[#171717] font-normal">
+                — Chaganti Koteswara Rao
+              </p>
+              <p className="text-xs text-[#8A5A24] uppercase tracking-[0.18em] font-medium mt-1">
+                Eminent Scholar & Pravachana Karta
+              </p>
+            </div>
+            <span className="text-[11px] font-mono uppercase tracking-widest text-[#6B6B6B]">
+              Benedictory Note • Thirtha Yatra
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ========================================================================= */}
+        {/* SUPPORTING TESTIMONIALS EDITORIAL GRID                                   */}
+        {/* ========================================================================= */}
+        <div className="mb-16">
+          <span className="text-xs uppercase tracking-[0.2em] text-[#8A5A24] font-medium block mb-8">
+            Further Scholarly Reflections
+          </span>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
+            {supportingReviews.map((rev) => {
+              const isExpanded = expandedId === rev.id;
+              return (
+                <motion.div
+                  key={rev.id}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  className="p-8 md:p-10 bg-[#F8F6F0] border border-[#EAE5D9] flex flex-col justify-between"
+                >
                   <div>
-                    <h3 className="font-serif text-lg text-[#171717] font-semibold">
-                      {rev.name}
-                    </h3>
-                    <p className="text-xs text-[#8A5A24] font-medium">
-                      {rev.designation}
-                    </p>
-                    <p className="text-[11px] text-[#6B6B6B] font-light">
-                      {rev.organization}
-                    </p>
+                    {/* Subtle quote icon */}
+                    <div className="text-[#8A5A24]/40 mb-6">
+                      <Quote size={28} className="rotate-180" />
+                    </div>
+
+                    {/* Primary Excerpt */}
+                    <blockquote className="font-serif text-xl md:text-2xl text-[#171717] font-normal leading-relaxed mb-6">
+                      {rev.shortQuote}
+                    </blockquote>
+
+                    {/* Collapsible Full Review */}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden mb-6"
+                        >
+                          <div className="pt-4 border-t border-[#EAE5D9] text-xs md:text-sm text-[#6B6B6B] leading-relaxed font-light space-y-3">
+                            <p>{rev.fullReview}</p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Read full review toggle button */}
+                    <button
+                      onClick={() => toggleExpand(rev.id)}
+                      className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-[#8A5A24] font-medium hover:text-[#171717] transition-colors mb-8"
+                    >
+                      <span>{isExpanded ? "Collapse review" : "Read full review"}</span>
+                      {isExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+                    </button>
                   </div>
 
-                  {rev.hasLaunchPhoto && (
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-[#8A5A24] bg-white px-2.5 py-1 border border-[#EAE5D9]">
-                      Inaugural Blessing
-                    </span>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
+                  {/* Reviewer Attribution */}
+                  <div className="pt-6 border-t border-[#EAE5D9] flex items-center justify-between">
+                    <div>
+                      <h3 className="font-serif text-lg text-[#171717] font-semibold">
+                        {rev.name}
+                      </h3>
+                      <p className="text-xs text-[#8A5A24] font-medium">
+                        {rev.designation}
+                      </p>
+                      <p className="text-[11px] text-[#6B6B6B] font-light">
+                        {rev.organization}
+                      </p>
+                    </div>
+
+                    {rev.hasLaunchPhoto && (
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-[#8A5A24] bg-white px-2.5 py-1 border border-[#EAE5D9]">
+                        Inaugural Blessing
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* Authentic Book Launch Ceremony Highlight */}
-        <div className="mt-16 p-8 bg-white border border-[#EAE5D9] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="p-8 bg-white border border-[#EAE5D9] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-4 relative aspect-[4/3] w-full overflow-hidden border border-[#EAE5D9]">
             <Image
               src="/images/swami-jnanananda-launch.jpg"
