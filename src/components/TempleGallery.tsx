@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, X, ZoomIn } from "lucide-react";
+import { Eye, X, ZoomIn, ChevronLeft, ChevronRight, LayoutGrid, SlidersHorizontal } from "lucide-react";
 
 interface GalleryPhoto {
   id: string;
@@ -17,6 +17,16 @@ interface GalleryPhoto {
 export const TempleGallery: React.FC = () => {
   const [activeTab, setActiveTab] = useState<"all" | "release" | "heritage">("all");
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
+  const [viewMode, setViewMode] = useState<"carousel" | "grid">("carousel");
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
 
   const galleryItems: GalleryPhoto[] = [
     {
@@ -114,11 +124,56 @@ export const TempleGallery: React.FC = () => {
       ? galleryItems
       : galleryItems.filter((item) => item.category === activeTab);
 
+  const updateScrollState = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    setCanScrollLeft(scrollLeft > 10);
+    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+
+    const cardWidth = scrollContainerRef.current.firstElementChild?.clientWidth || 360;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    setActiveIndex(Math.min(Math.max(newIndex, 0), filteredItems.length - 1));
+  };
+
+  useEffect(() => {
+    updateScrollState();
+    window.addEventListener("resize", updateScrollState);
+    return () => window.removeEventListener("resize", updateScrollState);
+  }, [filteredItems, viewMode]);
+
+  const scrollTo = (direction: "left" | "right") => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const cardWidth = container.firstElementChild?.clientWidth || 360;
+    const scrollAmount = direction === "left" ? -cardWidth * 1.5 : cardWidth * 1.5;
+    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+  };
+
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollContainerRef.current) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - scrollContainerRef.current.offsetLeft;
+    scrollLeftRef.current = scrollContainerRef.current.scrollLeft;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !scrollContainerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    scrollContainerRef.current.scrollLeft = scrollLeftRef.current - walk;
+  };
+
+  const handleMouseUp = () => {
+    isDraggingRef.current = false;
+  };
+
   return (
-    <section id="gallery" className="py-24 md:py-36 bg-[#F8F6F0] border-t border-[#EAE5D9]">
+    <section id="gallery" className="py-20 md:py-28 bg-[#F8F6F0] border-t border-[#EAE5D9]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
               <span className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#8A5A24]">
@@ -126,31 +181,82 @@ export const TempleGallery: React.FC = () => {
               </span>
               <span className="h-[1px] w-12 bg-[#8A5A24]/30" />
             </div>
-            <h2 className="font-serif text-4xl sm:text-5xl text-[#171717] font-normal">
-              Photographic Chronicle & Heritage
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#171717] font-normal leading-[1.12]">
+              Photographic Chronicle
             </h2>
           </div>
-          <p className="text-[#6B6B6B] text-sm md:text-base font-light max-w-md">
-            Documenting timeless temple heritage alongside authentic archival
-            moments from the book release blessed by Swami Jnanananda.
-          </p>
+
+          <div className="flex flex-wrap items-center justify-between md:justify-end gap-3">
+            {/* View Full Gallery Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setViewMode(viewMode === "carousel" ? "grid" : "carousel")}
+              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs uppercase tracking-wider font-medium border border-[#EAE5D9] bg-white text-[#171717] hover:border-[#8A5A24] transition-colors"
+            >
+              {viewMode === "carousel" ? (
+                <>
+                  <LayoutGrid size={14} className="text-[#8A5A24]" />
+                  <span>View Full Gallery ({filteredItems.length})</span>
+                </>
+              ) : (
+                <>
+                  <SlidersHorizontal size={14} className="text-[#8A5A24]" />
+                  <span>View Carousel</span>
+                </>
+              )}
+            </button>
+
+            {/* Carousel Navigation Arrows */}
+            {viewMode === "carousel" && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => scrollTo("left")}
+                  disabled={!canScrollLeft}
+                  aria-label="Previous gallery image"
+                  className={`p-2.5 rounded-full border transition-all duration-200 ${
+                    canScrollLeft
+                      ? "border-[#EAE5D9] text-[#171717] hover:border-[#8A5A24] hover:text-[#8A5A24] bg-white cursor-pointer"
+                      : "border-[#EAE5D9]/40 text-[#6B6B6B]/30 bg-white/50 cursor-not-allowed"
+                  }`}
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollTo("right")}
+                  disabled={!canScrollRight}
+                  aria-label="Next gallery image"
+                  className={`p-2.5 rounded-full border transition-all duration-200 ${
+                    canScrollRight
+                      ? "border-[#EAE5D9] text-[#171717] hover:border-[#8A5A24] hover:text-[#8A5A24] bg-white cursor-pointer"
+                      : "border-[#EAE5D9]/40 text-[#6B6B6B]/30 bg-white/50 cursor-not-allowed"
+                  }`}
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Minimal Category Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-12 pb-6 border-b border-[#EAE5D9]">
+        {/* Category Tabs */}
+        <div className="flex flex-wrap items-center gap-2 mb-8 pb-4 border-b border-[#EAE5D9]">
           <button
+            type="button"
             onClick={() => setActiveTab("all")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest font-medium transition-all ${
+            className={`px-3.5 py-1.5 text-xs uppercase tracking-widest font-medium transition-all ${
               activeTab === "all"
                 ? "bg-[#171717] text-white"
                 : "bg-white text-[#6B6B6B] border border-[#EAE5D9] hover:border-[#8A5A24]/60 hover:text-[#171717]"
             }`}
           >
-            All Archives ({galleryItems.length})
+            All ({galleryItems.length})
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("release")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest font-medium transition-all ${
+            className={`px-3.5 py-1.5 text-xs uppercase tracking-widest font-medium transition-all ${
               activeTab === "release"
                 ? "bg-[#171717] text-white"
                 : "bg-white text-[#6B6B6B] border border-[#EAE5D9] hover:border-[#8A5A24]/60 hover:text-[#171717]"
@@ -159,8 +265,9 @@ export const TempleGallery: React.FC = () => {
             Book Release & Ceremony ({galleryItems.filter((i) => i.category === "release").length})
           </button>
           <button
+            type="button"
             onClick={() => setActiveTab("heritage")}
-            className={`px-4 py-2 text-xs uppercase tracking-widest font-medium transition-all ${
+            className={`px-3.5 py-1.5 text-xs uppercase tracking-widest font-medium transition-all ${
               activeTab === "heritage"
                 ? "bg-[#171717] text-white"
                 : "bg-white text-[#6B6B6B] border border-[#EAE5D9] hover:border-[#8A5A24]/60 hover:text-[#171717]"
@@ -170,29 +277,89 @@ export const TempleGallery: React.FC = () => {
           </button>
         </div>
 
-        {/* Gallery Grid */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence>
+        {/* View Mode: Carousel or Full Grid */}
+        {viewMode === "carousel" ? (
+          <div>
+            <div
+              ref={scrollContainerRef}
+              onScroll={updateScrollState}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              className="flex gap-6 overflow-x-auto scrollbar-none pb-4 pt-1 -mx-6 px-6 md:-mx-12 md:px-12 select-none scroll-smooth cursor-grab active:cursor-grabbing snap-x snap-mandatory"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {filteredItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  onClick={() => setSelectedPhoto(item)}
+                  className="w-[84vw] sm:w-[350px] md:w-[370px] lg:w-[calc(33.333%-16px)] shrink-0 snap-start bg-white p-3 border border-[#EAE5D9] hover:border-[#8A5A24]/60 transition-all duration-300 shadow-2xs flex flex-col justify-between cursor-pointer group"
+                >
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF8F5]">
+                    <Image
+                      src={item.src}
+                      alt={item.title}
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="p-2.5 bg-white/90 text-[#171717] rounded-full shadow-sm">
+                        <ZoomIn size={16} />
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 pb-1">
+                    <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#8A5A24] mb-1">
+                      <span>{item.category === "release" ? "Launch Archive" : "Temple Plate"}</span>
+                      <span>{String(index + 1).padStart(2, "0")}</span>
+                    </div>
+                    <h3 className="font-serif text-lg text-[#171717] font-normal leading-snug group-hover:text-[#8A5A24] transition-colors mb-1 truncate">
+                      {item.title}
+                    </h3>
+                    <p className="text-[11px] text-[#6B6B6B] font-light leading-relaxed line-clamp-2">
+                      {item.caption}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Carousel dots */}
+            <div className="flex items-center justify-center gap-1.5 mt-5">
+              {filteredItems.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    idx === activeIndex
+                      ? "w-7 bg-[#8A5A24]"
+                      : "w-1.5 bg-[#EAE5D9]"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          /* Full Grid Mode */
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {filteredItems.map((item, index) => (
-              <motion.div
-                layout
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: index * 0.04 }}
+              <div
                 key={item.id}
                 onClick={() => setSelectedPhoto(item)}
-                className="group cursor-pointer bg-white p-3 border border-[#EAE5D9] hover:border-[#8A5A24]/60 transition-all duration-300 shadow-2xs flex flex-col justify-between"
+                className="bg-white p-3 border border-[#EAE5D9] hover:border-[#8A5A24]/60 transition-all duration-300 shadow-2xs flex flex-col justify-between cursor-pointer group"
               >
-                {/* Image Container */}
-                <div className={`relative ${item.aspect} w-full overflow-hidden bg-[#FAF8F5]`}>
+                <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#FAF8F5]">
                   <Image
                     src={item.src}
                     alt={item.title}
                     fill
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  {/* Subtle Hover Overlay */}
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="p-2.5 bg-white/90 text-[#171717] rounded-full shadow-sm">
                       <ZoomIn size={16} />
@@ -200,23 +367,22 @@ export const TempleGallery: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Metadata & Caption */}
                 <div className="pt-3 pb-1">
                   <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-widest text-[#8A5A24] mb-1">
                     <span>{item.category === "release" ? "Launch Archive" : "Temple Plate"}</span>
                     <span>Plate {String(index + 1).padStart(2, "0")}</span>
                   </div>
-                  <h3 className="font-serif text-lg text-[#171717] font-normal leading-snug group-hover:text-[#8A5A24] transition-colors mb-1">
+                  <h3 className="font-serif text-lg text-[#171717] font-normal leading-snug group-hover:text-[#8A5A24] transition-colors mb-1 truncate">
                     {item.title}
                   </h3>
                   <p className="text-[11px] text-[#6B6B6B] font-light leading-relaxed line-clamp-2">
                     {item.caption}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </motion.div>
+        )}
       </div>
 
       {/* Lightbox Modal */}
@@ -234,9 +400,10 @@ export const TempleGallery: React.FC = () => {
               className="bg-white max-w-4xl w-full p-4 md:p-6 border border-[#EAE5D9] shadow-2xl relative"
             >
               <button
+                type="button"
                 onClick={() => setSelectedPhoto(null)}
                 aria-label="Close modal"
-                className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white text-[#171717] rounded-full shadow-sm"
+                className="absolute top-4 right-4 z-10 p-2 bg-white/90 hover:bg-white text-[#171717] rounded-full shadow-sm cursor-pointer"
               >
                 <X size={20} />
               </button>

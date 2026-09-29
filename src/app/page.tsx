@@ -8,19 +8,12 @@ import { TempleGallery } from "@/components/TempleGallery";
 import { PersonalPilgrimage } from "@/components/PersonalPilgrimage";
 import { MobilePhoneStory } from "@/components/MobilePhoneStory";
 import { ReferenceCompilation } from "@/components/ReferenceCompilation";
-import { DistinctiveQualities } from "@/components/DistinctiveQualities";
-import { DifferentWayOfPilgrimage } from "@/components/DifferentWayOfPilgrimage";
-import { Journey } from "@/components/Journey";
-import { BookInsights } from "@/components/BookInsights";
 import { Chapters } from "@/components/Chapters";
 import { TempleStories } from "@/components/TempleStories";
 import { BookPreview } from "@/components/BookPreview";
 import { WhatReadersSay } from "@/components/WhatReadersSay";
 import { RecognitionSection } from "@/components/RecognitionSection";
 import { Author } from "@/components/Author";
-import { SharedJourney } from "@/components/SharedJourney";
-import { BookForHome } from "@/components/BookForHome";
-import { BookValue } from "@/components/BookValue";
 import { Purchase } from "@/components/Purchase";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
@@ -28,79 +21,58 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col bg-[#FFFFFF] selection:bg-[#8A5A24]/20 selection:text-[#171717]">
-      {/* 01. Minimal Fixed Header */}
+      {/* 01. Minimal Fixed Header with Anchor Navigation */}
       <Header />
 
-      {/* 02. Editorial Hero */}
+      {/* 02. Editorial Hero (Normal Section) */}
       <Hero />
 
-      {/* 03. Core Philosophy: India is more than a geography */}
+      {/* 03. Core Philosophy: India is more than a geography (Normal Section) */}
       <Introduction />
 
-      {/* 04. Purpose: Why Thirtha Yatra? */}
+      {/* 04. Purpose: Why Thirtha Yatra? (Horizontal Card Slider) */}
       <WhyThirthaYatra />
 
-      {/* 05. Civilization: The Sacred Places of Bharat */}
+      {/* 05. The Sacred Places of Bharat (Normal Intro + Horizontal Slider) */}
       <SacredPlaces />
 
-      {/* 06. Visual Heritage: Fine Art Plates */}
+      {/* 06. Visual Heritage: Fine Art Plates (Horizontal Image Carousel + Lightbox) */}
       <TempleGallery />
 
-      {/* 07. Dedication: A Journey of 8–9 Years & Every Journey Was Personal */}
+      {/* 07. The Journey of 8–9 Years: Consolidated Field Research, Companion & 3-Stage Timeline */}
       <PersonalPilgrimage />
 
-      {/* 08. Singular Focus: A Book Written on a Mobile Phone */}
+      {/* 08. Singular Focus: A Book Written on a Mobile Phone (Normal Section) */}
       <MobilePhoneStory />
 
-      {/* 09. Field Research: From Personal Visits to a Reference Book & Organized for the Yatri */}
+      {/* 09. Organized for the Yatri: 3-Card Category Layout & Dedicated Reference Table */}
       <ReferenceCompilation />
 
-      {/* 10. Core Hallmarks: What Makes Thirtha Yatra Different */}
-      <DistinctiveQualities />
-
-      {/* 11. Pilgrimage Ethos: A Different Way of Experiencing Pilgrimage */}
-      <DifferentWayOfPilgrimage />
-
-      {/* 12. Sacred Meridian: A Journey Across Sacred Bharat */}
-      <Journey />
-
-      {/* 13. Practical Reference: Discover -> Understand -> Plan -> Experience */}
-      <BookInsights />
-
-      {/* 14. Structure: Inside Thirtha Yatra */}
+      {/* 10. Structure: Inside Thirtha Yatra (Normal Section) */}
       <Chapters />
 
-      {/* 15. Living Lore: Every Temple Has a Story */}
+      {/* 11. Featured Quote: "Every temple in this holy land has a story to tell" (Normal Section) */}
       <TempleStories />
 
-      {/* 16. Archival Quality: Inside the Pages */}
+      {/* 12. Archival Quality: Inside the Pages (Normal Section) */}
       <BookPreview />
 
-      {/* 17. Testimonials & Launch Blessing: What Readers Say */}
+      {/* 13. Appreciation: What Readers Say (Horizontal Testimonial Slider featuring Chaganti Koteswara Rao) */}
       <WhatReadersSay />
 
-      {/* 18. Factual Archival: Recognition (RRRLF Kolkata & Ministry of External Affairs) */}
+      {/* 14. Official Recognition: RRRLF Kolkata & Ministry of External Affairs (Normal Section) */}
       <RecognitionSection />
 
-      {/* 19. Author Profile: Ramesh Gangashetty (Retired Officer, State Bank) */}
+      {/* 15. Author Profile: Ramesh Gangashetty (Retired Officer, State Bank) (Normal Section) */}
       <Author />
 
-      {/* 20. Devotional Partnership: The Journey Was Shared */}
-      <SharedJourney />
-
-      {/* 21. Home Library & Family Keepsake: A Book to Keep */}
-      <BookForHome />
-
-      {/* 22. Synthesis: More Than a Guide (Experience + Information + Reflection + Pilgrimage) */}
-      <BookValue />
-
-      {/* 23. Official Acquisition: Begin Your Yatra */}
+      {/* 16. Official Acquisition: Begin Your Yatra (Normal Section) */}
       <Purchase />
 
-      {/* 24. Closing Contemplation */}
+      {/* 17. Closing Contemplation */}
       <FinalCTA />
 
-      {/* 25. Editorial Minimal Footer */}
+      {/* 18. Editorial Minimal Footer */}
       <Footer />
     </main>
   );
