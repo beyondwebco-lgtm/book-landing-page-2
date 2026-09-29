@@ -97,7 +97,9 @@ export const Purchase: React.FC = () => {
 
               {/* CTA */}
               <a
-                href="#order-now"
+                href="https://www.amazon.in/-/hi/Thirtha-Yatra-Guide-Temples-Kshetras/dp/1684661331?s=bazaar"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full py-4 bg-[#171717] text-white text-xs uppercase tracking-[0.24em] font-medium text-center hover:bg-[#8A5A24] transition-colors flex items-center justify-center gap-3 shadow-xs"
               >
                 <ShoppingBag size={14} />
